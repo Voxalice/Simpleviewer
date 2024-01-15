@@ -1,0 +1,53 @@
+body, input {
+	background: #222;
+	color: #fff;
+	font-family: sans-serif;
+	text-align: center;
+}
+
+footer, small {
+	font-size: 12px;
+}
+
+a {
+	color: #ccf;
+}
+
+div {
+	margin: auto;
+	border: 2px solid #888;
+	border-radius: 8px;
+}
+
+.comment * {
+	border: 0;
+}
+
+#desc {
+	width: 80%;
+	max-width: 500px;
+	height: 300px;
+	overflow-y: scroll;
+}
+
+.comment, .result {
+	border-width: 1px;
+	width: 80%;
+	max-width: 800px;
+	padding: 5px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.reply {
+	width: calc(700px - 4rem);
+	margin-right: 44px;
+}
+
+.userlink {
+	color: #fff;
+}
+
+.emoji {
+	max-width: 24px;
+}
