@@ -1,20 +1,20 @@
 <?php
 
 
-# REPLIT DEVELOPMENT TOGGLE!
+# Replit development code
 
-$proxy_requests = false;
-
-# REPLIT DEVELOPMENT TOGGLE!
+$replit_support = filter_var(@file_get_contents("./replit.txt"), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
 function p(string $url_input) {
-	if ($GLOBALS['proxy_requests']) {
+	if ($GLOBALS['replit_support']) {
 		return 'https://apis.scratchconnect.eu.org/free-proxy/get?url=' . $url_input;
 	} else {
 		return $url_input;
 	}
 }
 
+
+# Page setup
 
 $project = @file_get_contents(p("https://api.scratch.mit.edu/projects/{$_GET['p']}"));
 
@@ -25,7 +25,7 @@ if ($project !== false) {
 
 	$project_json = json_decode($project, true);
 
-	if ($project_json["id"] == $_GET["p"]) {
+	if (@$project_json["id"] == $_GET["p"]) {
 
 		$page_title = "Simpleviewer - Project {$_GET["p"]} - {$project_json["title"]}";
 
@@ -62,7 +62,7 @@ if ($project !== false) {
 							
 				$project_json = json_decode($project, true);
 							
-				if ($project_json["id"] == $_GET["p"]) {
+				if (@$project_json["id"] == $_GET["p"]) {
 
 					
 					# Title, author, and project ID

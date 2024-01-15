@@ -1,20 +1,20 @@
 <?php
 
 
-# REPLIT DEVELOPMENT TOGGLE!
+# Replit development code
 
-$proxy_requests = false;
-
-# REPLIT DEVELOPMENT TOGGLE!
+$replit_support = filter_var(@file_get_contents("./replit.txt"), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
 function p(string $url_input) {
-	if ($GLOBALS['proxy_requests']) {
+	if ($GLOBALS['replit_support']) {
 		return 'https://apis.scratchconnect.eu.org/free-proxy/get?url=' . $url_input;
 	} else {
 		return $url_input;
 	}
 }
 
+
+# Page setup
 
 $user = @file_get_contents(p("https://api.scratch.mit.edu/users/{$_GET['u']}"));
 
@@ -25,7 +25,7 @@ if ($user !== false) {
 
 	$user_json = json_decode($user, true);
 
-	if (strcasecmp($user_json["username"], $_GET["u"]) == 0) {
+	if (@strcasecmp(@$user_json["username"], $_GET["u"]) == 0) {
 
 		$page_title = "Simpleviewer - User {$user_json["username"]}";
 
@@ -64,7 +64,7 @@ if ($user !== false) {
 
 				$user_json = json_decode($user, true);
 
-				if (strcasecmp($user_json["username"], $_GET["u"]) == 0) {
+				if (@strcasecmp(@$user_json["username"], $_GET["u"]) == 0) {
 
 
 					# Username (including *) and user ID

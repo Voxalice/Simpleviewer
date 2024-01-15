@@ -42,7 +42,7 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 			<p>Simpleviewer is a website that allows you to view pages on Scratch without requiring JavaScript or loading large resources.<br><br>This website was made for people with low-end devices, legacy browsers, and poor internet connections.</p>
 
 			<hr><br>
-		
+
 			<form action="/project.php">
 				<label for="p"><b>Input a Scratch project ID:</b></label><br><br>
 				<input type="text" id="p" name="p" value="104"> <input type="submit" value="Submit">
@@ -56,7 +56,7 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 				<input type="search" id="simpleviewer-search" name="q" value="Scratchnapped"> <input type="submit" value="Submit">
 			</form>
 
-			<p>Click <a href="/1.2.0.zip">here</a> to download this website's source code as a .ZIP file.</p>
+			<p>Click <a href="//github.com/Voxalice/Simpleviewer">here</a> to view this website's source code on GitHub.</p>
 
 			$footer
 		</font></body>
@@ -90,8 +90,6 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 	</html>
 	EOD;
 
-	die();
-	
 }
 
 ?>

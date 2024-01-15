@@ -14,8 +14,14 @@
 
 		<hr>
 
+		<h2>1.2.1</h2>
+		<p><b>- Finally moved source code to <a href='//github.com/Voxalice/Simpleviewer'>GitHub!</a></b></p>
+		<p>- Made Replit development even easier</p>
+		<p>- Made footer more verbose</p>
+		<p>- Fixed font color in very old browsers</p>
+
 		<h2>1.2.0</h2>
-		<p><b>- Fixed XSS</b></p>
+		<p><b>- Fixed stored XSS</b></p>
 		<p>- Added full datetimes to user comments</p>
 		<p>- Fixed "+" when echoing spaces in a search query</p>
 

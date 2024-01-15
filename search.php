@@ -1,20 +1,20 @@
 <?php
 
 
-# REPLIT DEVELOPMENT TOGGLE!
+# Replit development code
 
-$proxy_requests = false;
-
-# REPLIT DEVELOPMENT TOGGLE!
+$replit_support = filter_var(@file_get_contents("./replit.txt"), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
 function p(string $url_input) {
-	if ($GLOBALS['proxy_requests']) {
+	if ($GLOBALS['replit_support']) {
 		return 'https://apis.scratchconnect.eu.org/free-proxy/get?url=' . $url_input;
 	} else {
 		return $url_input;
 	}
 }
 
+
+# Page setup
 
 if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 
@@ -39,7 +39,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 		<meta name="author" content="Voxalice">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-	<body bgcolor="#222"><font color="#fff" face="sans-serif">
+	<body bgcolor="#222"><font color="white" face="sans-serif">
 		<?php
 
 
@@ -75,7 +75,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 		
 			# Check if search results were returned
 
-			if (str_contains($search, "{")) {
+			if (str_contains($search, "comments_allowed")) {
 
 
 				foreach($search_json as $key => $value) {
