@@ -1,4 +1,4 @@
-# Simpleviewer Testing
+# Simpleviewer
 
 This is Simpleviewer, a website made for viewing Scratch on old browsers and laggy devices.
 
