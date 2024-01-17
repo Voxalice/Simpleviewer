@@ -21,9 +21,11 @@ function sview_comment(string $comment_username, string $comment_data, string $c
 
 
 function sview_result(int $result_id, string $result_title, string $result_username) {
-	
 
-	return "<div class='result'><a href='/projects/{$result_id}'><img src='//uploads.scratch.mit.edu/get_image/project/{$result_id}_100x80.png?v=sview' width='100' height='80'><br><br><b>\"{$result_title}\"</b></a>, by <a href='/users/{$result_username}'>{$result_username}</a> (Project #{$result_id})</div><br>";
+
+	$result_title2 = htmlspecialchars($result_title);	
+
+	return "<div class='result'><a href='/projects/{$result_id}'><img src='//uploads.scratch.mit.edu/get_image/project/{$result_id}_100x80.png?v=sview' width='100' height='80'><br><br><b>\"{$result_title2}\"</b></a>, by <a href='/users/{$result_username}'>{$result_username}</a> (Project #{$result_id})</div><br>";
 	
 	
 }

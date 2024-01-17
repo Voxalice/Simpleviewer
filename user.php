@@ -112,7 +112,7 @@ if ($user !== false) {
 
 					echo "<hr><h1>Projects</h1>";
 
-					$projects = @file_get_contents(p("https://api.scratch.mit.edu/users/{$username}/projects?limit=5"));
+					$projects = @file_get_contents(p("https://api.scratch.mit.edu/users/{$username}/projects?limit=3"));
 
 					$projects_json = json_decode($projects, true);
 
@@ -131,6 +131,9 @@ if ($user !== false) {
 
 
 						}
+
+
+						echo "<p><a href='/users/{$username}/projects'>View more projects</a></p>";
 
 
 					} else {

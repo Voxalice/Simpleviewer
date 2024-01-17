@@ -1,21 +1,34 @@
 <?php
 
-# Project redirect
+if (str_contains($_SERVER['REQUEST_URI'], '/users/')) {
 
-if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
+	# User projects redirect
+
+	if (str_contains($_SERVER['REQUEST_URI'], '/projects')) {
+
+		$uri_split = explode("/", $_SERVER['REQUEST_URI']);
+
+		header("Location: /user_projects.php?u={$uri_split[2]}");
+		die();
+
+	# User redirect
+
+	} else {
+
+		$uri_split = explode("/", $_SERVER['REQUEST_URI']);
+
+		header("Location: /user.php?u={$uri_split[2]}");
+		die();
+
+	}
+
+# Project redirect
+	
+} else if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 
 	$uri_split = explode("/", $_SERVER['REQUEST_URI']);
 
 	header("Location: /project.php?p={$uri_split[2]}");
-	die();
-
-# User redirect
-	
-} else if (str_contains($_SERVER['REQUEST_URI'], '/users/')) {
-
-	$uri_split = explode("/", $_SERVER['REQUEST_URI']);
-
-	header("Location: /user.php?u={$uri_split[2]}");
 	die();
 
 # Studio redirect
