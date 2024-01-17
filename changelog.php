@@ -15,9 +15,7 @@
 		<hr>
 
 		<h2>1.3.0</h2>
-		<!--
 		<p><b>- Added studios</b></p>
-		-->
 		<p>- Fixed display of empty query parameters</p>
 
 		<h2>1.2.1</h2>

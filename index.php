@@ -1,5 +1,7 @@
 <?php
 
+# Project redirect
+
 if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 
 	$uri_split = explode("/", $_SERVER['REQUEST_URI']);
@@ -7,6 +9,8 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 	header("Location: /project.php?p={$uri_split[2]}");
 	die();
 
+# User redirect
+	
 } else if (str_contains($_SERVER['REQUEST_URI'], '/users/')) {
 
 	$uri_split = explode("/", $_SERVER['REQUEST_URI']);
@@ -14,6 +18,17 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 	header("Location: /user.php?u={$uri_split[2]}");
 	die();
 
+# Studio redirect
+	
+} else if (str_contains($_SERVER['REQUEST_URI'], '/studios/')) {
+
+	$uri_split = explode("/", $_SERVER['REQUEST_URI']);
+
+	header("Location: /studio.php?s={$uri_split[2]}");
+	die();
+
+# Project search redirect
+	
 } else if (str_contains($_SERVER['REQUEST_URI'], '/search/projects')) {
 
 	$uri_q_split = explode("?", $_SERVER['REQUEST_URI']);
@@ -21,6 +36,8 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 	header("Location: /search.php?{$uri_q_split[1]}");
 	die();
 
+# Index page
+	
 } else if ($_SERVER['REQUEST_URI'] == '/' or $_SERVER['REQUEST_URI'] == '') {
 
 	$footer = @file_get_contents("./footer.php");
@@ -48,13 +65,17 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 				<input type="text" id="p" name="p" value="104"> <input type="submit" value="Submit">
 			</form><br>or...<br><br>
 			<form action="/user.php">
-				<label for="u"><b>Input a username:</b></label><br><br>
+				<label for="u"><b>Input a Scratch username:</b></label><br><br>
 				<input type="text" id="u" name="u" value="griffpatch"> <input type="submit" value="Submit">
 			</form><br>or...<br><br>
 			<form action="/search.php">
 				<label for="simpleviewer-search"><b>Search for a Scratch project by name:</b></label><br><br>
 				<input type="search" id="simpleviewer-search" name="q" value="Scratchnapped"> <input type="submit" value="Submit">
-			</form>
+			</form><br>or...<br><br>
+		<form action="/studio.php">
+			<label for="s"><b>Input a Scratch studio ID:</b></label><br><br>
+			<input type="text" id="s" name="s" value="31478892"> <input type="submit" value="Submit">
+		</form>
 
 			<p>Click <a href="//github.com/Voxalice/Simpleviewer">here</a> to view this website's source code on GitHub.</p>
 
@@ -63,6 +84,8 @@ if (str_contains($_SERVER['REQUEST_URI'], '/projects/')) {
 	</html>
 	EOD;
 
+# 404 (no matching pages were found)
+	
 } else {
 
 	http_response_code(404);
