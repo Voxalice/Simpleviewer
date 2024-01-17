@@ -108,6 +108,40 @@ if ($user !== false) {
 					}
 
 
+					# Projects
+
+					echo "<hr><h1>Projects</h1>";
+
+					$projects = @file_get_contents(p("https://api.scratch.mit.edu/users/{$username}/projects?limit=5"));
+
+					$projects_json = json_decode($projects, true);
+
+
+					# Check if no projects were returned
+
+					if (str_contains($projects, "comments_allowed")) {
+
+
+						foreach($projects_json as $key => $value) {
+
+
+							# Echo search results
+
+							echo sview_result($value['id'], $value['title'], $username);
+
+
+						}
+
+
+					} else {
+
+
+						echo "<p>No projects</p><br>";
+
+
+					}
+
+
 					# Comments
 
 					echo "<hr><h1>Comments</h1>";
