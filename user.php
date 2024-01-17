@@ -16,16 +16,18 @@ function p(string $url_input) {
 
 # Page setup
 
-$user = @file_get_contents(p("https://api.scratch.mit.edu/users/{$_GET['u']}"));
+$u_query = $_GET['u'] ?? null;
 
-$page_title = "Simpleviewer - User {$_GET['u']} Not Found";
+$user = @file_get_contents(p("https://api.scratch.mit.edu/users/{$u_query}"));
+
+$page_title = "Simpleviewer - User {$u_query} Not Found";
 
 
 if ($user !== false) {
 
 	$user_json = json_decode($user, true);
 
-	if (@strcasecmp(@$user_json["username"], $_GET["u"]) == 0) {
+	if (@strcasecmp(@$user_json["username"], $u_query) == 0) {
 
 		$page_title = "Simpleviewer - User {$user_json["username"]}";
 
@@ -56,7 +58,7 @@ if ($user !== false) {
 
 				http_response_code(404);
 
-				echo "<h1>404 User Not Found</h1>Make sure the username has been typed correctly!<br>(Don't include the * next to Scratch Team usernames)";
+				echo "<h1>404 User Not Found</h1>Make sure the username has been typed correctly!<br>(Don't include the * next to Scratch Team usernames)<br><br>";
 
 
 			} else {
@@ -64,7 +66,7 @@ if ($user !== false) {
 
 				$user_json = json_decode($user, true);
 
-				if (@strcasecmp(@$user_json["username"], $_GET["u"]) == 0) {
+				if (@strcasecmp(@$user_json["username"], $u_query) == 0) {
 
 
 					# Username (including *) and user ID

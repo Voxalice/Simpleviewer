@@ -16,18 +16,20 @@ function p(string $url_input) {
 
 # Page setup
 
-$project = @file_get_contents(p("https://api.scratch.mit.edu/projects/{$_GET['p']}"));
+$p_query = $_GET['p'] ?? null;
 
-$page_title = "Simpleviewer - Project {$_GET['p']} Not Found";
+$project = @file_get_contents(p("https://api.scratch.mit.edu/projects/{$p_query}"));
+
+$page_title = "Simpleviewer - Project {$p_query} Not Found";
 
 
 if ($project !== false) {
 
 	$project_json = json_decode($project, true);
 
-	if (@$project_json["id"] == $_GET["p"]) {
+	if (@$project_json["id"] == $p_query) {
 
-		$page_title = "Simpleviewer - Project {$_GET["p"]} - {$project_json["title"]}";
+		$page_title = "Simpleviewer - Project {$p_query} - {$project_json["title"]}";
 
 	}
 	
@@ -55,30 +57,28 @@ if ($project !== false) {
 
 				http_response_code(404);
 				
-				echo "<h1>404 Project Not Found</h1>Make sure the project ID has been typed correctly!<br><br>(Simpleviewer cannot view unshared projects)";
+				echo "<h1>404 Project Not Found</h1>Make sure the project ID has been typed correctly!<br><br>(Simpleviewer cannot view unshared projects)<br><br>";
 
 			} else { # Project exists
 
 							
 				$project_json = json_decode($project, true);
 							
-				if (@$project_json["id"] == $_GET["p"]) {
+				if (@$project_json["id"] == $p_query) {
 
 					
 					# Title, author, and project ID
 					
 					$author = $project_json['author']['username'];
 
-					$id = $_GET["p"];
-
 					$title = htmlspecialchars($project_json['title']);
 
-					echo "<h1>{$title}, by <a href='/users/{$author}' class='userlink'>{$author}</a></h1>(Project #{$id})<br><br>";
+					echo "<h1>{$title}, by <a href='/users/{$author}' class='userlink'>{$author}</a></h1>(Project #{$p_query})<br><br>";
 					
 
 					# TurboWarp embed
 					
-					echo "<input type='image' src='/turbowarpload.jpg' onclick='twload();' tabindex='-1' alt='Click here to load this project in a TurboWarp embed. JavaScript required'><br><br><a href='https://forkphorus.github.io/sb-downloader/?id={$_GET['p']}'>(or download it as a .sb3 file; JavaScript required)</a><br><br><hr>";
+					echo "<input type='image' src='/turbowarpload.jpg' onclick='twload();' tabindex='-1' alt='Click here to load this project in a TurboWarp embed. JavaScript required'><br><br><a href='https://forkphorus.github.io/sb-downloader/?id={$p_query}'>(or download it as a .sb3 file; JavaScript required)</a><br><br><hr>";
 
 
 					# Project stats
@@ -127,7 +127,7 @@ if ($project !== false) {
 					
 					$description = htmlspecialchars($project_json['description'], ENT_QUOTES, 'UTF-8');
 					
-					echo nl2br("<br><br><div id='desc'><br><a href='//scratch.mit.edu/projects/{$id}' tabindex='0'>View on Scratch (JS and good internet connection required)</a><br><br><b>Instructions</b><br><br>{$instructions}<br><br><b>Notes and Credits</b><br><br>{$description}<br><br></div><br>");
+					echo nl2br("<br><br><div id='desc'><br><a href='//scratch.mit.edu/projects/{$p_query}' tabindex='0'>View on Scratch (JS and good internet connection required)</a><br><br><b>Instructions</b><br><br>{$instructions}<br><br><b>Notes and Credits</b><br><br>{$description}<br><br></div><br>");
 
 					
 					# Comments
@@ -149,7 +149,7 @@ if ($project !== false) {
 					$page_offset = $page_offset * 20;
 					
 					
-					$comments = @file_get_contents(p("https://api.scratch.mit.edu/users/{$author}/projects/{$id}/comments?offset={$page_offset}&limit=20"));
+					$comments = @file_get_contents(p("https://api.scratch.mit.edu/users/{$author}/projects/{$p_query}/comments?offset={$page_offset}&limit=20"));
 					
 					$comment_json = json_decode($comments, true);
 
@@ -179,7 +179,7 @@ if ($project !== false) {
 								
 								# Echo reply comments if applicable
 	
-								$replies = @file_get_contents(p("https://api.scratch.mit.edu/users/{$project_json['author']['username']}/projects/{$_GET["p"]}/comments/{$value["id"]}/replies?offset=0&limit=40"));
+								$replies = @file_get_contents(p("https://api.scratch.mit.edu/users/{$project_json['author']['username']}/projects/{$p_query}/comments/{$value["id"]}/replies?offset=0&limit=40"));
 								
 								$reply_json = json_decode($replies, true);
 
@@ -272,7 +272,7 @@ if ($project !== false) {
 
 		<script type="text/javascript" language="JavaScript">
 		<!--
-			id = <?php echo $id; ?>;
+			id = <?php echo $p_query; ?>;
 			function twload(){
 				document.querySelector("input").outerHTML = '<iframe src="https://turbowarp.org/' + id + '/embed?addons=pause,gamepad,mute-project,drag-drop&settings-button" width="499" height="416" allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen alt="TurboWarp embed"></iframe>';
 			}

@@ -16,6 +16,8 @@ function p(string $url_input) {
 
 # Page setup
 
+$q_query = $_GET['q'] ?? null;
+
 if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 
 	$uri_search_fixed = implode(" ", explode("+", $_SERVER['REQUEST_URI']));
@@ -31,7 +33,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
-		<title>Simpleviewer - Searching for <?= @$_GET['q'] ?></title>
+		<title>Simpleviewer - Searching for <?= $q_query ?></title>
 		<link rel="stylesheet" href="/style.css">
 		<meta charset="UTF-8">
 		<meta name="description" content="View Scratch without JavaScript or a modern browser">
@@ -62,7 +64,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 	
 			# Get search results
 
-			$search_query = urlencode($_GET['q']); # >:(
+			$search_query = @urlencode($q_query); # >:(
 
 			$search = @file_get_contents(p("https://api.scratch.mit.edu/search/projects?limit=16&offset={$page_offset}&language=en&mode=popular&q={$search_query}"));
 
@@ -75,7 +77,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 		
 			# Check if search results were returned
 
-			if (str_contains($search, "comments_allowed")) {
+			if ($q_query !== NULL && str_contains($search, "comments_allowed")) {
 
 
 				foreach($search_json as $key => $value) {
@@ -138,7 +140,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 		?>
 
 		<form action="/search.php">
-			<label for="simpleviewer-search"><b>Search for another project:</b></label> <input type="search" id="simpleviewer-search" name="q" value="<?= $_GET['q'] ?>"> <input type="submit" value="Submit">
+			<label for="simpleviewer-search"><b>Search for another project:</b></label> <input type="search" id="simpleviewer-search" name="q" value="<?= $q_query ?>"> <input type="submit" value="Submit">
 		</form>
 
 		<?php include "footer.php"; ?>

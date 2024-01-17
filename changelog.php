@@ -14,6 +14,12 @@
 
 		<hr>
 
+		<h2>1.3.0</h2>
+		<!--
+		<p><b>- Added studios</b></p>
+		-->
+		<p>- Fixed display of empty query parameters</p>
+
 		<h2>1.2.1</h2>
 		<p><b>- Finally moved source code to <a href='//github.com/Voxalice/Simpleviewer'>GitHub!</a></b></p>
 		<p>- Made Replit development even easier</p>
