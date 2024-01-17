@@ -1,17 +1,9 @@
 <?php
 
 
-# Replit development code
-
-$replit_support = filter_var(@file_get_contents("./replit.txt"), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-function p(string $url_input) {
-	if ($GLOBALS['replit_support']) {
-		return 'https://apis.scratchconnect.eu.org/free-proxy/get?url=' . $url_input;
-	} else {
-		return $url_input;
-	}
-}
+require './includes/replit.php';
+require './includes/page.php';
+require './includes/functions.php';
 
 
 # Page setup
@@ -55,11 +47,9 @@ if ($user !== false) {
 			
 			if ($user === false) {
 				
-
 				http_response_code(404);
 
 				echo "<h1>404 User Not Found</h1>Make sure the username has been typed correctly!<br>(Don't include the * next to Scratch Team usernames)<br><br>";
-
 
 			} else {
 
@@ -121,16 +111,6 @@ if ($user !== false) {
 					# Comments
 
 					echo "<hr><h1>Comments</h1>";
-					
-					if (@round(@$_GET["page"]) > 0) {
-						
-						$page = @round(@$_GET["page"]);
-						
-					} else {
-						
-						$page = 1;
-						
-					}
 
 					$comment_html = nl2br(@file_get_contents(p("https://scratch.mit.edu/site-api/comments/user/{$username}/?page={$page}")));
 
@@ -219,40 +199,7 @@ if ($user !== false) {
 						echo $final_comments;
 
 
-						# Add page buttons
-
-						$page_previous = $page - 1;
-						$page_next = $page + 1;
-
-						# Construct previous page link
-
-						$query = $_GET;
-
-						// replace parameter(s)
-						$query['page'] = $page_previous;
-
-						// rebuild url
-						$query_result_previous = "/user.php?" . http_build_query($query);
-
-						# Construct next page link
-
-						$query = $_GET;
-
-						// replace parameter(s)
-						$query['page'] = $page_next;
-
-						// rebuild url
-						$query_result_next = "/user.php?" . http_build_query($query);
-
-						# Echo page buttons / links
-
-						if ($page > 1) {
-
-							echo "<a href='{$query_result_previous}'>&lt; Previous page</a> | ";
-
-						}
-
-						echo "<a href='{$query_result_next}'>Next page &gt;</a>";
+						require './includes/page_links.php';
 
 
 					} else {

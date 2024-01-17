@@ -1,17 +1,9 @@
 <?php
 
 
-# Replit development code
-
-$replit_support = filter_var(@file_get_contents("./replit.txt"), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-function p(string $url_input) {
-	if ($GLOBALS['replit_support']) {
-		return 'https://apis.scratchconnect.eu.org/free-proxy/get?url=' . $url_input;
-	} else {
-		return $url_input;
-	}
-}
+require './includes/replit.php';
+require './includes/page.php';
+require './includes/functions.php';
 
 
 # Page setup
@@ -45,17 +37,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 		<?php
 
 
-			# Read 'page' as query parameter
-
-			if (@round(@$_GET["page"]) > 0) {
-
-				$page = @round(@$_GET["page"]);
-
-			} else {
-
-				$page = 1;
-
-			}
+			# Fix page offset
 
 			$page_offset = $page - 1;
 
@@ -64,7 +46,7 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 	
 			# Get search results
 
-			$search_query = @urlencode($q_query); # >:(
+			$search_query = @urlencode($q_query);
 
 			$search = @file_get_contents(p("https://api.scratch.mit.edu/search/projects?limit=16&offset={$page_offset}&language=en&mode=popular&q={$search_query}"));
 
@@ -85,47 +67,13 @@ if (str_contains($_SERVER['REQUEST_URI'], "+")) {
 					
 					# Echo search results
 					
-					echo "<div class='result'><a href='/projects/{$value['id']}'><img src='{$value['images']['100x80']}' width='100' height='80'><br><br><b>\"{$value['title']}\"</b></a>, by <a href='/users/{$value['author']['username']}'>{$value['author']['username']}</a> (Project #{$value['id']})</div><br>";
+					echo sview_result($value['id'], $value['title'], $value['author']['username']);
 					
 
 				}
 
 
-				# Add page buttons
-
-				$page_previous = $page - 1;
-				$page_next = $page + 1;
-
-				# Construct previous page link
-				
-				$query = $_GET;
-
-				// replace parameter(s)
-				$query['page'] = $page_previous;
-
-				// rebuild url
-				$query_result_previous = "/search.php?" . http_build_query($query);
-
-				# Construct next page link
-
-				$query = $_GET;
-
-				// replace parameter(s)
-				$query['page'] = $page_next;
-
-				// rebuild url
-				$query_result_next = "/search.php?" . http_build_query($query);
-				
-
-				# Echo page buttons / links
-
-				if ($page > 1) {
-
-					echo "<a href='{$query_result_previous}'>&lt; Previous page</a> | ";
-
-				}
-
-				echo "<a href='{$query_result_next}'>Next page &gt;</a><br><br>";
+				require './includes/page_links.php';
 
 
 			} else {

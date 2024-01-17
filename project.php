@@ -1,17 +1,9 @@
 <?php
 
 
-# Replit development code
-
-$replit_support = filter_var(@file_get_contents("./replit.txt"), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-function p(string $url_input) {
-	if ($GLOBALS['replit_support']) {
-		return 'https://apis.scratchconnect.eu.org/free-proxy/get?url=' . $url_input;
-	} else {
-		return $url_input;
-	}
-}
+require './includes/replit.php';
+require './includes/page.php';
+require './includes/functions.php';
 
 
 # Page setup
@@ -133,20 +125,6 @@ if ($project !== false) {
 					# Comments
 					
 					echo "<hr><h1>Comments</h1>";
-
-					if (@round(@$_GET["page"]) > 0) {
-
-						$page = @round(@$_GET["page"]);
-
-					} else {
-
-						$page = 1;
-
-					}
-
-					$page_offset = $page - 1;
-
-					$page_offset = $page_offset * 20;
 					
 					
 					$comments = @file_get_contents(p("https://api.scratch.mit.edu/users/{$author}/projects/{$p_query}/comments?offset={$page_offset}&limit=20"));
@@ -169,9 +147,7 @@ if ($project !== false) {
 
 							$comment_content = preg_replace("#(https:\/\/scratch.mit.edu\/projects(?:\/|\/\w+\/)(\d+)(?:\/|))#is", "<a href='/projects/$2'>$1</a>", $value['content']);
 
-							echo "<div class='comment'><a href='/users/{$value["author"]["username"]}' class='userlink'><b>{$value["author"]["username"]}</b></a>
-							<br><br>{$comment_content}
-							<br><br><small>Posted {$comment_date}</small></div>";
+							echo sview_comment($value["author"]["username"], $comment_content, $comment_date, false);
 							
 							
 							if ($value["reply_count"] > 0) {
@@ -192,11 +168,8 @@ if ($project !== false) {
 									$comment_date2 = date('Y-m-d H:i:s', strtotime($value2['datetime_created']));
 
 									$comment_content2 = preg_replace("#(https:\/\/scratch.mit.edu\/projects(?:\/|\/\w+\/)(\d+)(?:\/|))#is", "<a href='/projects/$2'>$1</a>", $value2['content']);
-				
-									echo "<div class='comment'>
-									<b><small>reply: </small><a href='/users/{$value2["author"]["username"]}' class='userlink'>{$value2["author"]["username"]}</a></b>
-									<br><br>{$comment_content2}
-									<br><br><small>Posted {$comment_date2}</small></div>";
+
+									echo sview_comment($value2["author"]["username"], $comment_content2, $comment_date2, true);
 									
 								}
 
@@ -213,40 +186,7 @@ if ($project !== false) {
 						}
 						
 
-						# Add page buttons
-
-						$page_previous = $page - 1;
-						$page_next = $page + 1;
-
-						# Construct previous page link
-
-						$query = $_GET;
-
-						// replace parameter(s)
-						$query['page'] = $page_previous;
-
-						// rebuild url
-						$query_result_previous = "/project.php?" . http_build_query($query);
-
-						# Construct next page link
-
-						$query = $_GET;
-
-						// replace parameter(s)
-						$query['page'] = $page_next;
-
-						// rebuild url
-						$query_result_next = "/project.php?" . http_build_query($query);
-
-						# Echo page buttons / links
-
-						if ($page > 1) {
-
-							echo "<a href='{$query_result_previous}'>&lt; Previous page</a> | ";
-
-						}
-
-						echo "<a href='{$query_result_next}'>Next page &gt;</a><br><br>";
+						require './includes/page_links.php';
 						
 
 					} else {
