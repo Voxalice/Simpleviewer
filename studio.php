@@ -229,9 +229,9 @@ if ($studio !== false) {
 	
 								$comment_date = date('Y-m-d H:i:s', strtotime($value['datetime_created']));
 	
-								# 1.1.0: Add links to project URLs
+								# Add links to project and studio URLs
 	
-								$comment_content = preg_replace("#(https:\/\/scratch.mit.edu\/projects(?:\/|\/\w+\/)(\d+)(?:\/|))#is", "<a href='/projects/$2'>$1</a>", $value['content']);
+								$comment_content = sview_replace_links($value['content']);
 
 								echo sview_comment($value["author"]["username"], $comment_content, $comment_date, false);
 	
@@ -254,7 +254,7 @@ if ($studio !== false) {
 	
 										$comment_date2 = date('Y-m-d H:i:s', strtotime($value2['datetime_created']));
 	
-										$comment_content2 = preg_replace("#(https:\/\/scratch.mit.edu\/studios(?:\/|\/\w+\/)(\d+)(?:\/|))#is", "<a href='/studios/$2'>$1</a>", $value2['content']);
+										$comment_content2 = sview_replace_links($value2['content']);
 
 										echo sview_comment($value2["author"]["username"], $comment_content2, $comment_date2, true);
 

@@ -203,9 +203,9 @@ if ($user !== false) {
 
 						$final_comments = preg_replace("#<div class=\"name\">\s(.*?)\s</div>#is", "<a href='/users/$1' class='userlink'><b>$1</b></a><br><br>", $final_comments);
 
-						# 1.1.0: Add links to project URLs
+						# Add links to project and studio URLs
 
-						$final_comments = preg_replace("#(https:\/\/scratch.mit.edu\/projects(?:\/|\/\w+\/)(\d+)(?:\/|))#is", "<a href='/projects/$2'>$1</a>", $final_comments);
+						$final_comments = sview_replace_links($final_comments);
 
 						# Remove random unwanted strings
 

@@ -16,8 +16,9 @@
 
 		<h2>1.3.0</h2>
 		<p><b>- Added studios</b></p>
+		<p>- Added clickable links to studio URLs in comments</p>
 		<p>- Added the ability to view a user's projects</p>
-		<p>- Optimized some code</p>
+		<p>- Reduced repeating code</p>
 		<p>- Fixed display of empty query parameters</p>
 
 		<h2>1.2.1</h2>
